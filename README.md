@@ -2,7 +2,6 @@
 
 [![Tests](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
-[![Total Downloads](https://img.shields.io/packagist/dt/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
 [![PHP Version Require](https://img.shields.io/packagist/php-v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
 [![License](https://img.shields.io/github/license/philiprehberger/php-rule-engine)](LICENSE)
 
