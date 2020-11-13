@@ -6,7 +6,6 @@
 
 Lightweight business rule engine with declarative conditions and actions.
 
----
 
 ## Requirements
 
@@ -16,7 +15,6 @@ Lightweight business rule engine with declarative conditions and actions.
 
 No external dependencies required.
 
----
 
 ## Installation
 
@@ -24,7 +22,6 @@ No external dependencies required.
 composer require philiprehberger/php-rule-engine
 ```
 
----
 
 ## Usage
 
@@ -137,7 +134,6 @@ class EloquentAccessor implements ContextAccessor
 $engine = RuleEngine::create(new EloquentAccessor());
 ```
 
----
 
 ## API
 
@@ -197,7 +193,6 @@ $engine = RuleEngine::create(new EloquentAccessor());
 | `$ruleName` | `string` | Name of the matched rule |
 | `$actionResult` | `mixed` | Return value of the action |
 
----
 
 ## Development
 
