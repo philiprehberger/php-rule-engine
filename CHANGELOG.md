@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-03-27
+
+### Added
+- `RuleEngine::compile()` for pre-compiled rule evaluation
+- Audit mode via `withAudit()` for detailed evaluation tracking
+- `RuleEngine::validate()` for static rule configuration analysis
+
 ## [1.0.6] - 2026-03-23
 
 ### Changed
