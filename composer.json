@@ -1,7 +1,9 @@
 {
     "name": "philiprehberger/php-rule-engine",
     "description": "Lightweight business rule engine with declarative conditions and actions",
+    "type": "library",
     "keywords": ["rule-engine", "business-rules", "conditions", "evaluation", "php"],
+    "homepage": "https://github.com/philiprehberger/php-rule-engine",
     "license": "MIT",
     "authors": [
         {
@@ -29,6 +31,11 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "lint": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
