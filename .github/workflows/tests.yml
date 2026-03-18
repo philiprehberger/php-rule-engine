@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - "*.x"
+    tags:
+      - 'v*'
   pull_request:
     branches:
       - main
