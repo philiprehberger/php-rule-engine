@@ -9,12 +9,7 @@ Lightweight business rule engine with declarative conditions and actions.
 
 ## Requirements
 
-| Dependency | Version |
-|------------|---------|
-| PHP        | ^8.2    |
-
-No external dependencies required.
-
+- PHP 8.2+
 
 ## Installation
 
