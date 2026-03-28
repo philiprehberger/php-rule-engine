@@ -16,6 +16,8 @@ class RuleEngine
 
     private readonly ContextAccessor $accessor;
 
+    private bool $auditEnabled = false;
+
     /**
      * Create a new rule engine instance.
      */
@@ -51,11 +53,59 @@ class RuleEngine
     }
 
     /**
+     * Enable audit mode for detailed evaluation tracking.
+     */
+    public function withAudit(): self
+    {
+        $this->auditEnabled = true;
+
+        return $this;
+    }
+
+    /**
+     * Pre-compile all rules into optimized closures for faster evaluation.
+     */
+    public function compile(): CompiledRuleEngine
+    {
+        return new CompiledRuleEngine($this->rules, $this->accessor);
+    }
+
+    /**
+     * Validate the rule configuration and return an array of warning messages.
+     *
+     * @return array<int, string>
+     */
+    public function validate(): array
+    {
+        $warnings = [];
+        $names = [];
+
+        foreach ($this->rules as $rule) {
+            if ($rule->conditions === []) {
+                $warnings[] = "Rule '{$rule->name}' has no conditions and will always match.";
+            }
+
+            if (isset($names[$rule->name])) {
+                $warnings[] = "Duplicate rule name '{$rule->name}'.";
+            }
+
+            $names[$rule->name] = true;
+        }
+
+        return $warnings;
+    }
+
+    /**
      * Evaluate all rules against the given context and return all matches.
      */
     public function evaluate(mixed $context): EvaluationResult
     {
         $sorted = $this->sortedRules();
+
+        if ($this->auditEnabled) {
+            return $this->evaluateWithAudit($sorted, $context);
+        }
+
         $results = [];
 
         foreach ($sorted as $rule) {
@@ -88,6 +138,63 @@ class RuleEngine
         }
 
         return null;
+    }
+
+    /**
+     * Get all registered rules.
+     *
+     * @return array<int, Rule>
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Evaluate rules with audit tracking enabled.
+     *
+     * @param  array<int, Rule>  $sorted
+     */
+    private function evaluateWithAudit(array $sorted, mixed $context): AuditResult
+    {
+        $results = [];
+        $entries = [];
+        $stopped = false;
+
+        foreach ($sorted as $rule) {
+            if ($stopped) {
+                $entries[] = new AuditEntry(
+                    ruleName: $rule->name,
+                    matched: false,
+                    skipped: true,
+                    durationMs: 0.0,
+                );
+
+                continue;
+            }
+
+            $start = hrtime(true);
+            $matched = $this->matches($rule, $context);
+            $durationMs = (hrtime(true) - $start) / 1_000_000;
+
+            if ($matched) {
+                $actionResult = ($rule->action)($context);
+                $results[] = new RuleResult($rule->name, $actionResult);
+
+                if ($rule->stopOnMatch) {
+                    $stopped = true;
+                }
+            }
+
+            $entries[] = new AuditEntry(
+                ruleName: $rule->name,
+                matched: $matched,
+                skipped: false,
+                durationMs: $durationMs,
+            );
+        }
+
+        return new AuditResult($results, $entries);
     }
 
     /**

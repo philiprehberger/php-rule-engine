@@ -1,12 +1,15 @@
 # PHP Rule Engine
 
 [![Tests](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
+[![Packagist Version](https://img.shields.io/packagist/v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
+[![GitHub Release](https://img.shields.io/github/v/release/philiprehberger/php-rule-engine)](https://github.com/philiprehberger/php-rule-engine/releases)
+[![Last Updated](https://img.shields.io/github/last-commit/philiprehberger/php-rule-engine)](https://github.com/philiprehberger/php-rule-engine/commits/main)
 [![License](https://img.shields.io/github/license/philiprehberger/php-rule-engine)](LICENSE)
+[![Bug Reports](https://img.shields.io/github/issues/philiprehberger/php-rule-engine/bug)](https://github.com/philiprehberger/php-rule-engine/issues?q=label%3Abug)
+[![Feature Requests](https://img.shields.io/github/issues/philiprehberger/php-rule-engine/enhancement)](https://github.com/philiprehberger/php-rule-engine/issues?q=label%3Aenhancement)
 [![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Lightweight business rule engine with declarative conditions and actions.
-
 
 ## Requirements
 
@@ -17,7 +20,6 @@ Lightweight business rule engine with declarative conditions and actions.
 ```bash
 composer require philiprehberger/php-rule-engine
 ```
-
 
 ## Usage
 
@@ -107,6 +109,47 @@ $result = RuleEngine::create()
     ]);
 ```
 
+### Compiled Rule Engine
+
+```php
+$compiled = RuleEngine::create()
+    ->rule('adult')
+    ->when('age', '>=', 18)
+    ->then(fn () => 'allowed')
+    ->build()
+    ->compile();
+
+// Evaluate multiple contexts with pre-compiled closures
+$result = $compiled->evaluate(['age' => 25]);
+$first = $compiled->evaluateFirst(['age' => 25]);
+```
+
+### Audit Mode
+
+```php
+$result = RuleEngine::create()
+    ->rule('a')
+    ->when('x', '>', 0)
+    ->then(fn () => 'matched')
+    ->build()
+    ->withAudit()
+    ->evaluate(['x' => 5]);
+
+$result->auditEntries(); // Array of AuditEntry objects
+$result->evaluatedCount(); // Number of rules evaluated
+$result->skippedCount(); // Number of rules skipped
+```
+
+### Rule Validation
+
+```php
+$engine = RuleEngine::create();
+$engine->addRule(new Rule('no-conditions', [], fn () => 'x'));
+
+$warnings = $engine->validate();
+// ["Rule 'no-conditions' has no conditions and will always match."]
+```
+
 ### Custom Context Accessor
 
 Implement `ContextAccessor` to read values from any data structure:
@@ -130,7 +173,6 @@ class EloquentAccessor implements ContextAccessor
 $engine = RuleEngine::create(new EloquentAccessor());
 ```
 
-
 ## API
 
 ### RuleEngine
@@ -141,6 +183,9 @@ $engine = RuleEngine::create(new EloquentAccessor());
 | `->rule(string $name): RuleBuilder` | Begin defining a named rule |
 | `->evaluate(mixed $context): EvaluationResult` | Evaluate all rules, return all matches |
 | `->evaluateFirst(mixed $context): ?RuleResult` | Evaluate rules, return first match only |
+| `->compile(): CompiledRuleEngine` | Pre-compile rules into optimized closures |
+| `->withAudit(): self` | Enable audit mode for detailed tracking |
+| `->validate(): array` | Validate rule configuration, return warnings |
 
 ### RuleBuilder
 
@@ -154,6 +199,13 @@ $engine = RuleEngine::create(new EloquentAccessor());
 | `->priority(int $priority)` | Set rule priority (higher runs first) |
 | `->stopOnMatch(bool $stop = true)` | Stop evaluation after this rule matches |
 | `->build(): RuleEngine` | Build the rule and return the engine |
+
+### CompiledRuleEngine
+
+| Method | Description |
+|--------|-------------|
+| `->evaluate(mixed $context): EvaluationResult` | Evaluate compiled rules, return all matches |
+| `->evaluateFirst(mixed $context): ?RuleResult` | Evaluate compiled rules, return first match only |
 
 ### Operators
 
@@ -182,6 +234,14 @@ $engine = RuleEngine::create(new EloquentAccessor());
 | `->actionResults(): array` | All action return values |
 | `->ruleNames(): array` | All matched rule names |
 
+### AuditResult (extends EvaluationResult)
+
+| Method | Description |
+|--------|-------------|
+| `->auditEntries(): array` | All audit entries |
+| `->evaluatedCount(): int` | Number of rules evaluated |
+| `->skippedCount(): int` | Number of rules skipped |
+
 ### RuleResult
 
 | Property | Type | Description |
@@ -189,16 +249,19 @@ $engine = RuleEngine::create(new EloquentAccessor());
 | `$ruleName` | `string` | Name of the matched rule |
 | `$actionResult` | `mixed` | Return value of the action |
 
-
 ## Development
 
 ```bash
 composer install
 vendor/bin/phpunit
 vendor/bin/pint --test
-vendor/bin/phpstan analyse
 ```
+
+## Support
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Philip%20Rehberger-blue?logo=linkedin)](https://www.linkedin.com/in/philiprehberger/)
+[![Packages](https://img.shields.io/badge/More%20Packages-philiprehberger-orange)](https://github.com/philiprehberger/packages)
 
 ## License
 
-MIT
+[MIT](LICENSE)
