@@ -1,13 +1,8 @@
 # PHP Rule Engine
 
 [![Tests](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-rule-engine/actions/workflows/tests.yml)
-[![Packagist Version](https://img.shields.io/packagist/v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
-[![GitHub Release](https://img.shields.io/github/v/release/philiprehberger/php-rule-engine)](https://github.com/philiprehberger/php-rule-engine/releases)
-[![Last Updated](https://img.shields.io/github/last-commit/philiprehberger/php-rule-engine)](https://github.com/philiprehberger/php-rule-engine/commits/main)
-[![License](https://img.shields.io/github/license/philiprehberger/php-rule-engine)](LICENSE)
-[![Bug Reports](https://img.shields.io/github/issues/philiprehberger/php-rule-engine/bug)](https://github.com/philiprehberger/php-rule-engine/issues?q=label%3Abug)
-[![Feature Requests](https://img.shields.io/github/issues/philiprehberger/php-rule-engine/enhancement)](https://github.com/philiprehberger/php-rule-engine/issues?q=label%3Aenhancement)
-[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-rule-engine.svg)](https://packagist.org/packages/philiprehberger/php-rule-engine)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/php-rule-engine)](https://github.com/philiprehberger/php-rule-engine/commits/main)
 
 Lightweight business rule engine with declarative conditions and actions.
 
@@ -259,8 +254,21 @@ vendor/bin/pint --test
 
 ## Support
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Philip%20Rehberger-blue?logo=linkedin)](https://www.linkedin.com/in/philiprehberger/)
-[![Packages](https://img.shields.io/badge/More%20Packages-philiprehberger-orange)](https://github.com/philiprehberger/packages)
+If you find this project useful:
+
+⭐ [Star the repo](https://github.com/philiprehberger/php-rule-engine)
+
+🐛 [Report issues](https://github.com/philiprehberger/php-rule-engine/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+💡 [Suggest features](https://github.com/philiprehberger/php-rule-engine/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
+
+🌐 [All Open Source Projects](https://philiprehberger.com/open-source-packages)
+
+💻 [GitHub Profile](https://github.com/philiprehberger)
+
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/philiprehberger)
 
 ## License
 
